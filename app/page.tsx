@@ -1,22 +1,22 @@
 "use client";
 import React from "react";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { ShootingStars } from "@/components/ui/shooting-stars";
 import { StarsBackground } from "@/components/ui/stars-background";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import {
   IconBrandGithub,
   IconBrandLinkedin,
-  IconBrandX,
-  IconExchange,
+  IconBrandVscode,
   IconHome,
-  IconNewSection,
   IconTerminal2,
+  IconBrandApple,
 } from "@tabler/icons-react";
+
 import Image from "next/image";
 import LearniButtonHome from "@/components/utils/learni-button-home";
 import { VamshiNenu } from "@/components/utils/vamshinenu";
 import { motion, useTransform, useTime } from "framer-motion";
+import Moon from "@/components/utils/Moon";
 
 export default function Home() {
   const links = [
@@ -29,24 +29,24 @@ export default function Home() {
     },
 
     {
-      title: "Products",
+      title: "iTerm",
       icon: (
         <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "#",
     },
     {
-      title: "Components",
+      title: "Apple M1 Pro",
       icon: (
-        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <IconBrandApple className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "#",
     },
 
     {
-      title: "Changelog",
+      title: "Vscode",
       icon: (
-        <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <IconBrandVscode className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "#",
     },
@@ -67,33 +67,9 @@ export default function Home() {
     },
   ];
   return (
-    <div className="rounded-md bg-neutral-900 flex flex-col items-center justify-between relative w-full h-screen dark">
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 120 }}
-        className="absolute flex items-center justify-center z-10 -top-20"
-      >
-        <motion.img
-          initial={{ opacity: 0, top: -10 }}
-          animate={{ opacity: 1, top: 0 }}
-          transition={{ duration: 2, type: "spring" }}
-          src={"/moon.png"}
-          height={200}
-          width={200}
-          alt="moon"
-        />
-      </motion.div>
-      <div className="absolute top-0 z-0">
-        <div className="relative">
-          <motion.div
-            initial={{ opacity: 0, top: -10 }}
-            animate={{ opacity: 1, top: 0 }}
-            transition={{ duration: 1, type: "spring" }}
-            className="absolute z-0 left-1/2  -translate-x-1/2 -translate-y-1/2 blur-xl h-[150px] w-[150px] rounded-full
-
-        bg-gradient-to-b from-neutral-800 via-white to-white"
-          />
-        </div>
+    <div className="overflow-hidden rounded-md bg-neutral-900 flex flex-col items-center justify-between relative w-full h-screen dark">
+      <div className="absolute -top-20 z-0">
+        <Moon />
       </div>
       <motion.div
         initial={{ opacity: 0, y: -10, zIndex: 100 }}
@@ -127,6 +103,15 @@ export default function Home() {
       <StarsBackground />
       <div />
       <FloatingDock items={links} />
+
+      <div className="absolute -left-[200px] -bottom-[250px] h-[450px] w-[450px] earth rounded-full"></div>
+      <Image
+        src="/earth.png"
+        alt="earth"
+        width={500}
+        height={500}
+        className="absolute -left-[200px] -bottom-[250px] blur-sm"
+      />
     </div>
   );
 }
