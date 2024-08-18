@@ -3,7 +3,7 @@
  * Desktop navbar is better positioned at the bottom
  * Mobile navbar is better positioned at bottom right.
  **/
-
+"use client";
 import { cn } from "@/lib/utils";
 import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
 import {
@@ -14,7 +14,6 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import Link from "next/link";
 import { useRef, useState } from "react";
 
 export const FloatingDock = ({
@@ -22,7 +21,13 @@ export const FloatingDock = ({
   desktopClassName,
   mobileClassName,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: {
+    title: string;
+    icon: React.ReactNode;
+    href?: string;
+    newTab?: boolean;
+    onClick?: () => void;
+  }[];
   desktopClassName?: string;
   mobileClassName?: string;
 }) => {
@@ -38,14 +43,18 @@ const FloatingDockMobile = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: {
+    title: string;
+    icon: React.ReactNode;
+    href?: string;
+    newTab?: boolean;
+    onClick?: () => void;
+  }[];
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div
-      className={cn("relative block md:hidden bottom-4 left-[42%] ", className)}
-    >
+    <div className={cn("fixed block md:hidden bottom-4 left-[42%]", className)}>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -69,13 +78,24 @@ const FloatingDockMobile = ({
                 }}
                 transition={{ delay: (items.length - 1 - idx) * 0.05 }}
               >
-                <Link
-                  href={item.href}
+                <button
+                  onClick={() => {
+                    if (item.href) {
+                      if (item.newTab) {
+                        window.open(item.href, "_blank");
+                        return;
+                      }
+                      window.location.href = item.href;
+                      return;
+                    }
+
+                    item.onClick?.();
+                  }}
                   key={item.title}
                   className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-900 flex items-center justify-center"
                 >
                   <div className="h-4 w-4">{item.icon}</div>
-                </Link>
+                </button>
               </motion.div>
             ))}
           </motion.div>
@@ -95,7 +115,13 @@ const FloatingDockDesktop = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: {
+    title: string;
+    icon: React.ReactNode;
+    href?: string;
+    newTab?: boolean;
+    onClick?: () => void;
+  }[];
   className?: string;
 }) => {
   let mouseX = useMotionValue(Infinity);
@@ -107,7 +133,7 @@ const FloatingDockDesktop = ({
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        "mx-auto hidden md:flex h-16 gap-4 items-end rounded-2xl  bg-gray-50  dark:bg-neutral-800 px-4 pb-3 absolute top-[90%]",
+        "mx-auto hidden md:flex h-16 gap-4 items-end rounded-2xl  bg-gray-50  dark:bg-neutral-800 px-4 pb-3 fixed top-[90%] z-50 left-1/2 -translate-x-1/2",
         className
       )}
     >
@@ -123,17 +149,20 @@ function IconContainer({
   title,
   icon,
   href,
+  newTab,
+  onClick,
 }: {
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
-  href: string;
+  href?: string;
+  newTab?: boolean;
+  onClick?: () => void;
 }) {
   let ref = useRef<HTMLDivElement>(null);
 
   let distance = useTransform(mouseX, (val) => {
     let bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-
     return val - bounds.x - bounds.width / 2;
   });
 
@@ -172,7 +201,20 @@ function IconContainer({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer">
+    <button
+      onClick={() => {
+        if (href) {
+          if (newTab) {
+            window.open(href, "_blank");
+            return;
+          }
+          window.location.href = href;
+          return;
+        }
+
+        onClick?.();
+      }}
+    >
       <motion.div
         ref={ref}
         style={{ width, height }}
@@ -199,6 +241,6 @@ function IconContainer({
           {icon}
         </motion.div>
       </motion.div>
-    </a>
+    </button>
   );
 }

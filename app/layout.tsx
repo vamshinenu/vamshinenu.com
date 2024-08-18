@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { FloatingDock } from "@/components/ui/floating-dock";
+import { links } from "./dockLinks";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`${inter.className} w-full relative h-screen dark bg-neutral-900`}
+      >
+        {children}
+
+        <FloatingDock items={links} />
+      </body>
     </html>
   );
 }

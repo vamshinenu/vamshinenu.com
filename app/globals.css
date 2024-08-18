@@ -59,6 +59,10 @@
   }
 }
 
+.layout {
+  height: 100vh;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -222,22 +226,45 @@
   }
 }
 
-.earth {
-  animation: earth-glow 8s ease-in-out infinite;
+.earth-enter {
+  animation: earth-enter 3s ease-in-out;
 }
 
-@keyframes earth-glow {
-  0%,
+.earth-rotate {
+  animation: earth-rotate 480s ease infinite;
+  animation-delay: 3s;
+}
+
+@keyframes earth-enter {
+  0% {
+    opacity: 0;
+  }
   100% {
-    box-shadow: 0px 0px 10px 5px rgba(173, 216, 230, 0.3),
-      0px 0px 20px 10px rgba(135, 206, 235, 0.2),
-      0px 0px 30px 15px rgba(0, 191, 255, 0.1),
-      0px 0px 40px 20px rgba(30, 144, 255, 0.05);
+    opacity: 1;
   }
-  50% {
-    box-shadow: 0px 0px 15px 7px rgba(173, 216, 230, 0.4),
-      0px 0px 30px 15px rgba(135, 206, 235, 0.3),
-      0px 0px 45px 22px rgba(0, 191, 255, 0.2),
-      0px 0px 60px 30px rgba(30, 144, 255, 0.1);
+}
+
+@keyframes earth-rotate {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.earth-glow {
+  left: -200px;
+  bottom: -250px;
+  height: 505px;
+  width: 505px;
+  border-radius: 50%;
+  position: absolute;
+  background-image: url("/earth.png");
+  background-size: cover;
+  filter: blur(10px);
+}
+
+.blog-heading {
+  @apply font-bold text-4xl text-center bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-800;
 }
