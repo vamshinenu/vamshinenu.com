@@ -21,8 +21,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} w-full relative h-screen dark bg-neutral-900`}
       >
-        {children}
-
+        <div className="h-full w-full overflow-scroll noscrollbar">
+          {children}
+        </div>
         <FloatingDock items={links} />
       </body>
     </html>

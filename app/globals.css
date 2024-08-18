@@ -72,6 +72,10 @@
   }
 }
 
+.noscrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .animate-moon-light {
   /* box-shadow: rgba(255, 255, 255, 0.56) 0px 22px 70px 4px,
     rgba(255, 255, 255, 0.56) 0px 12px 30px 4px,
