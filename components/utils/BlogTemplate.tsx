@@ -5,12 +5,10 @@ import React, { useEffect, useState } from "react";
 export default function BlogTemplate({
   heading,
   readTime,
-  children,
   updatedOn,
 }: {
   heading: string;
   readTime: string;
-  children: React.ReactNode;
   updatedOn: string;
 }) {
   const [viewCount, setViewCount] = useState(0);
@@ -35,7 +33,7 @@ export default function BlogTemplate({
   }, [heading]);
 
   return (
-    <div className="w-full gap-2 flex-col flex max-w-screen-lg h-full">
+    <>
       <h1 className="blog-heading">{heading}</h1>
       <div className="flex flex-row gap-2 justify-between w-full items-center">
         <div className="flex gap-2 items-center">
@@ -59,8 +57,6 @@ export default function BlogTemplate({
           <span className="text-xs">Updated on: {updatedOn}</span>
         </p>
       </div>
-
-      <p className="text-justify text-neutral-400">{children}</p>
-    </div>
+    </>
   );
 }
